@@ -95,12 +95,7 @@ def downloadfile(idx, url, filename):
 
 if __name__ == "__main__":
 
-	start_idx, end_idx = sys.argv[1], sys.argv[2]
-
 	engine, conn = db_connection()
-
-	set = 0
-
 	while True:
 		try:
 			locking = "LOCK TABLE Report.pdfurl WRITE;"
@@ -112,8 +107,7 @@ if __name__ == "__main__":
 			
 			if len(url_df)>=1 :
 				for idx, url in zip(tqdm(url_df['idx']), url_df['url']):
-
-					#status =2 , 다운로드 진행 중(점유)
+					
 					try:
 						upd_query = f'UPDATE Report.pdfurl SET status = 2 WHERE idx={idx};'
 						conn.execute(text(upd_query))
@@ -126,7 +120,6 @@ if __name__ == "__main__":
 					except Exception as e:
 						print(e)
 						continue
-
 
 					try:
 						file_name = url.split('/')[-1]
@@ -156,7 +149,6 @@ if __name__ == "__main__":
 
 					except Exception as e:
 						continue
-
 
 			else:
 				break
